@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Vite Dev Server",
+      "type": "shell",
+      "command": "deno",
+      "args": ["task", "dev"],
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "CI Check (Formatting, Lint, Types, Build)",
+      "type": "shell",
+      "command": "deno",
+      "args": ["task", "ci"],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Preview Production Build",
+      "type": "shell",
+      "command": "deno",
+      "args": ["task", "preview"],
+      "problemMatcher": []
+    }
+  ]
+}

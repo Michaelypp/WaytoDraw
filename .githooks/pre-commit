@@ -1,0 +1,13 @@
+#!/bin/sh
+# Shared checks for local commits and GitHub Actions.
+if ! command -v deno >/dev/null 2>&1; then
+    echo "Deno was not found. Install Deno and restart your terminal or editor."
+    echo "https://docs.deno.com/runtime/getting_started/installation/"
+    exit 1
+fi
+if ! deno task ci; then
+    echo "Checks failed. Your files are saved, but the commit was not created."
+    echo "For formatting errors: deno task fmt"
+    echo "Fix other reported errors, then run deno task ci and try again."
+    exit 1
+fi

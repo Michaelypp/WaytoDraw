@@ -1,0 +1,2 @@
+# Consistent text checkouts and executable shell hooks on macOS and Windows.
+* text=auto eol=lf
