@@ -1,5 +1,4 @@
 type Point = { x: number; y: number };
-
 type Tool =
   | {
     id: string;
@@ -119,7 +118,36 @@ style.textContent = `
     font-family: system-ui, sans-serif;
   }
   main { max-width: 980px; margin: auto; padding: 32px 20px; }
-  h1 { margin-bottom: 6px; }
+  h1 {
+  margin: 24px 0 16px;
+  text-align: center;
+  font-size: clamp(36px, 7vw, 64px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  color: #24664f;
+  transform-origin: center;
+  animation: titleFloat 3s ease-in-out infinite;
+}
+
+@keyframes titleFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(0.94);
+  }
+}
+
+h1 + p {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  h1 {
+    animation: none;
+  }
+}
   p { line-height: 1.6; }
   .panel {
     background: white;
