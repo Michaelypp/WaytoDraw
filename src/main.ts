@@ -13,6 +13,7 @@ type Tool =
     name: string;
     text: string;
     size: number;
+    color?: string;
   };
 
 interface DrawingCommand {
@@ -59,11 +60,12 @@ class StickerCommand implements DrawingCommand {
     readonly position: Point,
     readonly text: string,
     readonly size: number,
+    readonly color: string = "#332b26",
   ) {}
 
   draw(target: CanvasRenderingContext2D): void {
     target.save();
-    target.fillStyle = "#183b32";
+    target.fillStyle = this.color;
     target.font = `${this.size}px system-ui, sans-serif`;
     target.textAlign = "center";
     target.textBaseline = "middle";
@@ -121,7 +123,7 @@ style.textContent = `
   width: 48px;
   height: 36px;
   padding: 2px;
-  border: 1px solid #b9c8bd;
+  border: 1px solid #d4c5b8;
   border-radius: 6px;
   background: white;
   cursor: pointer;
@@ -130,7 +132,7 @@ style.textContent = `
   body {
     margin: 0;
     background: #f4f1e8;
-    color: #183b32;
+    color: #332b26;
     font-family: system-ui, sans-serif;
   }
   main { max-width: 980px; margin: auto; padding: 32px 20px; }
@@ -140,7 +142,7 @@ style.textContent = `
   font-size: clamp(36px, 7vw, 64px);
   font-weight: 800;
   letter-spacing: -2px;
-  color: #24664f;
+  color: #a34f3e;
   transform-origin: center;
   animation: titleFloat 3s ease-in-out infinite;
 }
@@ -168,7 +170,7 @@ h1 + p {
   .panel {
     background: white;
     padding: 16px;
-    border: 1px solid #d7ded4;
+    border: 1px solid #dfd3c7;
     border-radius: 14px;
     margin: 18px 0;
   }
@@ -178,15 +180,15 @@ h1 + p {
     border: 1px solid #b9c8bd;
     border-radius: 8px;
     background: #fff;
-    color: #183b32;
+    color: #332b26;
     font: inherit;
     cursor: pointer;
   }
-  button:hover:not(:disabled) { background: #edf4ed; }
+  button:hover:not(:disabled) { background: #f5e8df; }
   button[aria-pressed="true"] {
     color: white;
-    background: #24664f;
-    border-color: #24664f;
+    background: #a34f3e;
+    border-color: #a34f3e;
   }
   button:disabled { opacity: .4; cursor: default; }
   button:focus-visible { outline: 3px solid #d39938; }
@@ -195,7 +197,7 @@ h1 + p {
     width: 100%;
     height: auto;
     background: white;
-    border: 2px solid #718d7a;
+    border: 2px solid #aa9180;
     border-radius: 8px;
     touch-action: none;
     cursor: crosshair;
@@ -312,14 +314,14 @@ main {
 
 .title-card h1 {
   margin: 0 0 12px;
-  color: #174c3a;
+  color: #402d27;
   font-size: clamp(36px, 5vw, 60px);
   letter-spacing: -1.5px;
 }
 
 .title-card p {
   margin: 0;
-  color: #354d42;
+  color: #756257;
   font-size: 15px;
   line-height: 1.6;
 }
@@ -414,7 +416,7 @@ app.innerHTML = `
       <div id="tools" class="toolbar"></div>
       <label class="color-control">
   Brush color
-  <input id="brush-color" type="color" value="#24664f">
+  <input id="brush-color" type="color" value="#a34f3e">
 </label>
       <p id="status" role="status"></p>
       <button id="custom" type="button">+ Create sticker</button>
@@ -458,36 +460,38 @@ const tools: Tool[] = [
     id: "thin",
     kind: "marker",
     name: "Thin marker",
-    color: "#24664f",
+    color: "#a34f3e",
     width: 3,
   },
   {
     id: "thick",
     kind: "marker",
     name: "Thick marker",
-    color: "#24664f",
+    color: "#a34f3e",
     width: 12,
   },
   {
-    id: "flower",
+    id: "star",
     kind: "sticker",
-    name: "Flower",
-    text: "🌼",
+    name: "Star",
+    text: "✦",
     size: 44,
+    color: "#ecfd00",
   },
   {
-    id: "leaf",
+    id: "diamond",
     kind: "sticker",
-    name: "Leaf",
-    text: "🌿",
-    size: 44,
+    name: "Diamond",
+    text: "💎",
+    size: 40,
+    color: "#179bf3",
   },
   {
-    id: "butterfly",
+    id: "circle",
     kind: "sticker",
-    name: "Butterfly",
-    text: "🦋",
-    size: 44,
+    name: "Circle",
+    text: "●",
+    size: 36,
   },
 ];
 
@@ -530,9 +534,9 @@ function commandForGesture(current: Gesture): DrawingCommand {
     { ...current.points[0]! },
     current.tool.text,
     current.tool.size,
+    current.tool.color,
   );
 }
-
 function redraw(): void {
   context!.clearRect(0, 0, canvas.width, canvas.height);
   renderDocument(context!, history.active);
