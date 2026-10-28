@@ -192,16 +192,22 @@ h1 + p {
   }
   button:disabled { opacity: .4; cursor: default; }
   button:focus-visible { outline: 3px solid #d39938; }
-  canvas {
-    display: block;
-    width: 100%;
-    height: auto;
-    background: white;
-    border: 2px solid #aa9180;
-    border-radius: 8px;
-    touch-action: none;
-    cursor: crosshair;
-  }
+ canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: white;
+  border: 12px solid #98745b;
+  border-radius: 3px;
+  box-shadow:
+    0 0 0 2px #674b39,
+    0 0 0 10px #ede2cf,
+    0 0 0 12px #c7b59d,
+    0 18px 40px #30211635;
+  touch-action: none;
+  cursor: crosshair;
+  margin: 30px 0;
+}
   #status { min-height: 26px; }
   body {
   isolation: isolate;
