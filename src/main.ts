@@ -110,6 +110,22 @@ document.title = "Way to Draw";
 
 const style = document.createElement("style");
 style.textContent = `
+.color-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+#brush-color {
+  width: 48px;
+  height: 36px;
+  padding: 2px;
+  border: 1px solid #b9c8bd;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+}
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -194,6 +210,10 @@ app.innerHTML = `
     <p>Its time to have some creativity folks!!!!!!!</p>
     <section class="panel" aria-label="Drawing tools">
       <div id="tools" class="toolbar"></div>
+      <label class="color-control">
+  Brush color
+  <input id="brush-color" type="color" value="#24664f">
+</label>
       <p id="status" role="status"></p>
       <button id="custom" type="button">+ Create sticker</button>
     </section>
@@ -272,6 +292,7 @@ const tools: Tool[] = [
 const history = new DrawingHistory();
 let selectedTool: Tool = tools[0]!;
 let customCount = 0;
+const colorPicker = element<HTMLInputElement>("#brush-color");
 
 type Gesture = {
   pointerId: number;
@@ -382,7 +403,9 @@ canvas.addEventListener("pointerdown", (event) => {
   event.preventDefault();
   gesture = {
     pointerId: event.pointerId,
-    tool: { ...selectedTool },
+    tool: selectedTool.kind === "marker"
+      ? { ...selectedTool, color: colorPicker.value }
+      : { ...selectedTool },
     points: [documentPoint(event)],
   };
   canvas.setPointerCapture(event.pointerId);
