@@ -483,6 +483,7 @@ app.innerHTML = `
       <div class="toolbar">
         <button id="undo" type="button">Undo</button>
         <button id="redo" type="button">Redo</button>
+        <button id="clear-pixels" type="button">Clear</button>
         <button id="redraw" type="button">Redraw</button>
         <button id="export" type="button">Export PNG</button>
       </div>
@@ -719,6 +720,10 @@ redoButton.addEventListener("click", () => {
 });
 
 element<HTMLButtonElement>("#redraw").addEventListener("click", redraw);
+
+element<HTMLButtonElement>("#clear-pixels").addEventListener("click", () => {
+  context!.clearRect(0, 0, canvas.width, canvas.height); // document and history untouched
+});
 
 element<HTMLButtonElement>("#custom").addEventListener("click", () => {
   const name = globalThis.prompt("Name your sticker:");
