@@ -366,6 +366,9 @@ main {
 button {
   border-color: #d4c5b8;
 }
+  .art-background.is-paused .art-track {
+  animation-play-state: paused;
+}
 `;
 document.head.append(style);
 const bridgeArt = new URL(
@@ -465,6 +468,9 @@ app.innerHTML = `
     <p id="status" role="status"></p>
 
     <button id="custom" type="button">+ Create sticker</button>
+    <button id="toggle-background" type="button" aria-pressed="false">
+  Pause background
+</button>
   </div>
 </section>
     <canvas
@@ -777,3 +783,13 @@ exportButton.addEventListener("click", () => {
 
 renderPalette();
 redraw();
+const background = element<HTMLDivElement>(".art-background");
+const backgroundButton = element<HTMLButtonElement>("#toggle-background");
+
+backgroundButton.addEventListener("click", () => {
+  const paused = background.classList.toggle("is-paused");
+  backgroundButton.setAttribute("aria-pressed", String(paused));
+  backgroundButton.textContent = paused
+    ? "Resume background"
+    : "Pause background";
+});
