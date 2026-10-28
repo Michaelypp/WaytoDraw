@@ -331,6 +331,41 @@ main {
   font-size: 15px;
   line-height: 1.6;
 }
+  .tools-panel {
+  padding: 16px 18px;
+}
+
+.tool-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #ece2d5;
+}
+
+.tool-options .color-control {
+  margin: 0;
+  font-size: 14px;
+}
+
+.tool-options #status {
+  flex: 1;
+  min-width: 140px;
+  min-height: 0;
+  margin: 0;
+  color: #756257;
+  font-size: 13px;
+}
+
+.tool-options #custom {
+  margin-left: auto;
+}
+
+button {
+  border-color: #d4c5b8;
+}
 `;
 document.head.append(style);
 const bridgeArt = new URL(
@@ -418,15 +453,20 @@ app.innerHTML = `
     <h1>Way to Draw</h1>
     <p>Its time to have some creativity folks!!!!!!!</p>
   </header>
-    <section class="panel" aria-label="Drawing tools">
-      <div id="tools" class="toolbar"></div>
-      <label class="color-control">
-  Brush color
-  <input id="brush-color" type="color" value="#a34f3e">
-</label>
-      <p id="status" role="status"></p>
-      <button id="custom" type="button">+ Create sticker</button>
-    </section>
+    <section class="panel tools-panel" aria-label="Drawing tools">
+  <div id="tools" class="toolbar"></div>
+
+  <div class="tool-options">
+    <label class="color-control">
+      Brush color
+      <input id="brush-color" type="color" value="#a34f3e">
+    </label>
+
+    <p id="status" role="status"></p>
+
+    <button id="custom" type="button">+ Create sticker</button>
+  </div>
+</section>
     <canvas
       id="drawing"
       width="800"
@@ -441,7 +481,7 @@ app.innerHTML = `
         <button id="export" type="button">Export PNG</button>
       </div>
     </section>
-    <p>>Tip: Use the Undo and Redo buttons to step through your drawing history.</p>
+    <p>Little Tip for you: Use the Undo and Redo buttons to step through your drawing history.</p>
   </main>
 `;
 
