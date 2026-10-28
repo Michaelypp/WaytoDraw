@@ -297,6 +297,32 @@ main {
     animation: none;
   }
 }
+  .title-card {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 24px;
+  padding: 24px 40px;
+  text-align: center;
+  background: rgba(255, 252, 244, 0.94);
+  border: 1px solid #ded5c1;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px #30291b18;
+  backdrop-filter: blur(12px);
+}
+
+.title-card h1 {
+  margin: 0 0 12px;
+  color: #174c3a;
+  font-size: clamp(36px, 5vw, 60px);
+  letter-spacing: -1.5px;
+}
+
+.title-card p {
+  margin: 0;
+  color: #354d42;
+  font-size: 15px;
+  line-height: 1.6;
+}
 `;
 document.head.append(style);
 const bridgeArt = new URL(
@@ -380,8 +406,10 @@ const backgroundMarkup = `
 app.innerHTML = `
   ${backgroundMarkup}
   <main>
+  <header class="title-card">
     <h1>Way to Draw</h1>
     <p>Its time to have some creativity folks!!!!!!!</p>
+  </header>
     <section class="panel" aria-label="Drawing tools">
       <div id="tools" class="toolbar"></div>
       <label class="color-control">
