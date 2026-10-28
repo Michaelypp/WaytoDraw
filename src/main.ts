@@ -1,12 +1,7 @@
 type Point = { x: number; y: number };
 type Tool =
-  | {
-    id: string;
-    kind: "marker";
-    name: string;
-    color: string;
-    width: number;
-  }
+  | { id: string; kind: "marker"; name: string; color: string; width: number }
+  | { id: string; kind: "eraser"; name: string; width: number }
   | {
     id: string;
     kind: "sticker";
@@ -524,27 +519,45 @@ const tools: Tool[] = [
     width: 12,
   },
   {
+    id: "eraser",
+    kind: "eraser",
+    name: "Eraser",
+    width: 20,
+  },
+  {
     id: "star",
     kind: "sticker",
     name: "Star",
-    text: "✦",
+    text: "✮ ",
     size: 44,
-    color: "#ecfd00",
   },
   {
-    id: "diamond",
+    id: "heart",
     kind: "sticker",
-    name: "Diamond",
-    text: "💎",
-    size: 40,
-    color: "#179bf3",
-  },
-  {
-    id: "circle",
-    kind: "sticker",
-    name: "Circle",
-    text: "●",
+    name: "Heart",
+    text: "❤︎",
     size: 36,
+  },
+  {
+    id: "flower",
+    kind: "sticker",
+    name: "Flower",
+    text: "❀",
+    size: 40,
+  },
+  {
+    id: "moon",
+    kind: "sticker",
+    name: "Moon",
+    text: "⏾",
+    size: 36,
+  },
+  {
+    id: "clover",
+    kind: "sticker",
+    name: "Clover",
+    text: "☘︎",
+    size: 40,
   },
 ];
 
@@ -575,12 +588,14 @@ function renderDocument(
 }
 
 function commandForGesture(current: Gesture): DrawingCommand {
+  const points = current.points.map((point) => ({ ...point }));
+
   if (current.tool.kind === "marker") {
-    return new StrokeCommand(
-      current.points.map((point) => ({ ...point })),
-      current.tool.color,
-      current.tool.width,
-    );
+    return new StrokeCommand(points, current.tool.color, current.tool.width);
+  }
+
+  if (current.tool.kind === "eraser") {
+    return new StrokeCommand(points, "#ffffff", current.tool.width);
   }
 
   return new StickerCommand(
@@ -674,7 +689,7 @@ canvas.addEventListener("pointerdown", (event) => {
 canvas.addEventListener("pointermove", (event) => {
   if (!gesture || gesture.pointerId !== event.pointerId) return;
 
-  if (gesture.tool.kind === "marker") {
+  if (gesture.tool.kind !== "sticker") {
     gesture.points.push(documentPoint(event));
     redraw();
   }
@@ -683,7 +698,7 @@ canvas.addEventListener("pointermove", (event) => {
 canvas.addEventListener("pointerup", (event) => {
   if (!gesture || gesture.pointerId !== event.pointerId) return;
 
-  if (gesture.tool.kind === "marker") {
+  if (gesture.tool.kind !== "sticker") {
     gesture.points.push(documentPoint(event));
   }
 
