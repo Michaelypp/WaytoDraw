@@ -201,10 +201,184 @@ h1 + p {
     cursor: crosshair;
   }
   #status { min-height: 26px; }
+  body {
+  isolation: isolate;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+.art-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 12px 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.art-lane {
+  flex: 1;
+  min-height: 0;
+}
+
+.art-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  animation: galleryFlow 65s linear infinite;
+}
+
+.art-lane:nth-child(even) .art-track {
+  animation-direction: reverse;
+}
+
+.art-lane:nth-child(2) .art-track {
+  animation-duration: 80s;
+  animation-delay: -20s;
+}
+
+.art-lane:nth-child(3) .art-track {
+  animation-duration: 72s;
+  animation-delay: -36s;
+}
+
+.art-lane:nth-child(4) .art-track {
+  animation-duration: 90s;
+  animation-delay: -12s;
+}
+
+.art-group {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-around;
+  gap: 20px;
+  min-width: 100vw;
+  height: 100%;
+  padding-right: 20px;
+}
+
+.art-card {
+  flex-shrink: 0;
+  width: clamp(180px, 24vw, 380px);
+  height: 100%;
+  padding: 7px;
+  background: #fffaf0;
+  border: 1px solid #ddd3be;
+  border-radius: 4px;
+  box-shadow: 0 6px 16px #48372020;
+}
+
+.art-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+@keyframes galleryFlow {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art-track {
+    animation: none;
+  }
+}
 `;
 document.head.append(style);
+const bridgeArt = new URL(
+  "./assets/water-lily-pond-with-japanese-bridge.jpg",
+  import.meta.url,
+).href;
 
+const liliesArt = new URL(
+  "./assets/water-lilies-harmony-in-blue.jpg",
+  import.meta.url,
+).href;
+
+const mirrorArt = new URL(
+  "./assets/girl-before-a-mirro.jpg",
+  import.meta.url,
+).href;
+
+const weepingArt = new URL(
+  "./assets/Picasso_The_Weeping_Woman_Tate_identifier_T05010_10.jpg",
+  import.meta.url,
+).href;
+const starryNightArt = new URL(
+  "./assets/Van_Gogh_-_Starry_Night.jpg",
+  import.meta.url,
+).href;
+
+const greatWaveArt = new URL(
+  "./assets/source.jpg",
+  import.meta.url,
+).href;
+
+const wheatFieldArt = new URL(
+  "./assets/Wheat-Field-with-Cypresses.jpg",
+  import.meta.url,
+).href;
+
+const gleanersArt = new URL(
+  "./assets/Millet_-_Gleaners.jpg",
+  import.meta.url,
+).href;
+
+const artworkImages = [
+  bridgeArt,
+  mirrorArt,
+  starryNightArt,
+  gleanersArt,
+  liliesArt,
+  weepingArt,
+  greatWaveArt,
+  wheatFieldArt,
+];
+
+const backgroundMarkup = `
+  <div class="art-background" aria-hidden="true">
+    ${
+  Array.from({ length: 4 }, (_, row) => {
+    const images = [
+      ...artworkImages.slice(row),
+      ...artworkImages.slice(0, row),
+    ];
+
+    const group = `
+      <div class="art-group">
+        ${
+      images.map((src) =>
+        `<div class="art-card"><img src="${src}" alt=""></div>`
+      ).join("")
+    }
+      </div>
+    `;
+
+    return `
+      <div class="art-lane">
+        <div class="art-track">${group}${group}</div>
+      </div>
+    `;
+  }).join("")
+}
+  </div>
+`;
 app.innerHTML = `
+  ${backgroundMarkup}
   <main>
     <h1>Way to Draw</h1>
     <p>Its time to have some creativity folks!!!!!!!</p>
